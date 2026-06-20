@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Netlify
+.netlify/
+
+# Dependencies (none expected — static site)
+node_modules/
