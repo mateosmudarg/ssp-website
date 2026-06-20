@@ -3,235 +3,340 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SimpleServerPassword — Password-gate your Fabric server</title>
-  <meta name="description" content="A lightweight server-side mod for Minecraft 1.20.1 (Fabric) that locks your server behind a single password. Stops bots and compromised accounts. No client install required." />
+  <title>SimpleServerPassword — Keep raiders out of your friends' server</title>
+  <meta name="description" content="A server-side Fabric mod for Minecraft 1.20.1 that locks your server behind one shared password. Built to stop server-scanning raid bots and leaked accounts from wrecking small private servers." />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="SimpleServerPassword" />
-  <meta property="og:description" content="Lock your private Fabric server behind one password. Server-side, no client install." />
-  <meta name="theme-color" content="#0a0b0d" />
+  <meta property="og:description" content="One password. Until someone types it, they can't touch your server — not even an old OP account. For small private servers, not corporations." />
+  <meta name="theme-color" content="#C8F432" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Ambient background glow -->
-  <div class="bg-glow" aria-hidden="true"></div>
-
   <!-- NAV -->
-  <header class="nav">
-    <a href="#" class="brand" aria-label="SimpleServerPassword home">
-      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <path d="M16 2 4 7v8c0 7.5 5.1 12.9 12 15 6.9-2.1 12-7.5 12-15V7L16 2Z" fill="url(#g)" fill-opacity="0.16" stroke="url(#g)" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M16 13.2a2.4 2.4 0 0 0-1 4.6V21a1 1 0 0 0 2 0v-3.2a2.4 2.4 0 0 0-1-4.6Z" fill="url(#g)"/>
-        <path d="M12.3 13.4v-2a3.7 3.7 0 0 1 7.4 0v2" stroke="url(#g)" stroke-width="1.6" stroke-linecap="round"/>
-        <defs><linearGradient id="g" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#6ee7a8"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
-      </svg>
-      <span class="brand-name">SimpleServerPassword</span>
-    </a>
-
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#features" data-i18n="nav_features">Features</a>
-      <a href="#setup" data-i18n="nav_setup">Setup</a>
-      <a href="#faq" data-i18n="nav_faq">FAQ</a>
-    </nav>
-
-    <div class="nav-actions">
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button data-lang="en" class="is-active" type="button">EN</button>
-        <button data-lang="es" type="button">ES</button>
-      </div>
-      <a class="ghost-btn" href="https://github.com/mateosmudarg/SimpleServerPassword" target="_blank" rel="noopener" aria-label="GitHub repository">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.46-2.3 1.2-3.1-.12-.3-.52-1.48.1-3.08 0 0 .98-.31 3.2 1.18a11.1 11.1 0 0 1 5.83 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.6.23 2.78.11 3.08.75.8 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#top" class="brand" aria-label="SimpleServerPassword home">
+        <span class="brand-box" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 3 5 7.4v7.2c0 6.9 4.7 11.9 11 13.8 6.3-1.9 11-6.9 11-13.8V7.4L16 3Z" fill="#111" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M16 13a2.5 2.5 0 0 0-1 4.8V21a1 1 0 0 0 2 0v-3.2A2.5 2.5 0 0 0 16 13Z" fill="#C8F432"/>
+            <path d="M12 13v-2a4 4 0 0 1 8 0v2" stroke="#C8F432" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">SimpleServerPassword</span>
       </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu" type="button">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="nav-menu">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#problem" data-i18n="nav_problem">The problem</a>
+          <a href="#how" data-i18n="nav_how">How it works</a>
+          <a href="#setup" data-i18n="nav_setup">Setup</a>
+          <a href="#faq" data-i18n="nav_faq">FAQ</a>
+        </nav>
+        <div class="nav-actions">
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <button data-lang="en" class="is-active" type="button">EN</button>
+            <button data-lang="es" type="button">ES</button>
+          </div>
+          <a class="btn btn-pink btn-sm" href="#download" data-i18n="nav_download">Download</a>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <!-- HERO -->
     <section class="hero">
-      <span class="badge" data-i18n="hero_badge">Fabric · Minecraft 1.20.1 · Server-side</span>
-      <h1 data-i18n-html="hero_title">Lock your server<br />behind <span class="accent">one password.</span></h1>
-      <p class="lede" data-i18n="hero_lede">A lightweight gate for private Fabric servers. Until a player types the password, they can't move, see, build, chat, or run a single command — not even an OP. No client install, no account system.</p>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="tag tag-lime" data-i18n="hero_tag">FABRIC · MINECRAFT 1.20.1 · SERVER-SIDE</span>
+          <h1 data-i18n-html="hero_title">Keep raiders out of<br />your friends' <span class="mark">server.</span></h1>
+          <p class="hero-sub" data-i18n="hero_sub">One shared password. Until someone types it, they can't move, see, or touch a single thing on your server — not even an account that used to have OP. Made for small private servers, not corporations.</p>
+          <div class="hero-cta">
+            <a class="btn btn-lime btn-pill btn-lg" href="#download" data-i18n="hero_download">↓ Download the mod</a>
+            <a class="btn btn-ghost btn-lg" href="#how" data-i18n="hero_how">How it works</a>
+          </div>
+        </div>
 
-      <div class="hero-cta">
-        <a class="primary-btn" href="#download" data-i18n="hero_download">Download</a>
-        <a class="ghost-btn ghost-btn--lg" href="https://github.com/mateosmudarg/SimpleServerPassword" target="_blank" rel="noopener" data-i18n="hero_github">View on GitHub</a>
+        <!-- Fake "join screen" panel -->
+        <div class="screen" aria-hidden="true">
+          <div class="screen-bar"><span></span><span></span><span></span><b data-i18n="screen_bar">a stranger joins…</b></div>
+          <pre class="screen-body"><code><span class="s-dim">// screen goes black. can't move.</span>
+<span class="s-warn">SERVER LOCKED.</span>
+<span class="s-dim">type</span> <span class="s-lime">/password &lt;password&gt;</span> <span class="s-dim">to play</span>
+
+&gt; <span class="s-lime">/password</span> ••••••••••
+<span class="s-ok">OK — you're in. welcome!</span></code></pre>
+        </div>
       </div>
+    </section>
 
-      <!-- Glass terminal accent -->
-      <div class="glass-terminal" aria-hidden="true">
-        <div class="term-bar"><span></span><span></span><span></span></div>
-        <pre class="term-body"><code><span class="t-dim">[player joins — screen goes dark]</span>
-<span class="t-warn">This server is protected.</span>
-<span class="t-dim">Use</span> <span class="t-accent">/password &lt;password&gt;</span> <span class="t-dim">to play.</span>
+    <!-- PROBLEM -->
+    <section id="problem" class="section section-pink">
+      <div class="wrap">
+        <span class="tag tag-pink" data-i18n="problem_tag">THE REAL PROBLEM</span>
+        <h2 class="section-title" data-i18n="problem_title">Your server is way less hidden than you think</h2>
+        <div class="prose">
+          <p data-i18n="problem_p1">Every Minecraft server answers a public ping with its status — version, players online, MOTD. Bots scan enormous ranges of IPs around the clock looking for anything that replies, especially servers with no whitelist or running in offline / "cracked" mode.</p>
+          <p data-i18n="problem_p2">When an organized raid group finds one, they pile in, hunt for anyone with OP (or just grief everything in reach), and leave the world in ruins. You didn't share your IP anywhere — they found it by scanning.</p>
+          <p data-i18n="problem_p3">And here's the nasty part: an old or leaked account that already played on your server is gold to them. It's "known", maybe still on your whitelist, and nobody's watching it anymore. A plain whitelist doesn't save you from that.</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <b data-i18n="stat1_n">24/7</b>
+            <span data-i18n="stat1_l">bots scanning IP ranges for open servers</span>
+          </div>
+          <div class="stat">
+            <b data-i18n="stat2_n">1 ping</b>
+            <span data-i18n="stat2_l">is all it takes for your server to show up</span>
+          </div>
+          <div class="stat">
+            <b data-i18n="stat3_n">0 warning</b>
+            <span data-i18n="stat3_l">before a known account logs in to look for OP</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-&gt; <span class="t-accent">/password</span> ••••••••••
-<span class="t-ok">✓ Authentication successful. Welcome!</span></code></pre>
+    <!-- HOW IT WORKS -->
+    <section id="how" class="section">
+      <div class="wrap">
+        <span class="tag tag-sky" data-i18n="how_tag">NO TECH DEGREE NEEDED</span>
+        <h2 class="section-title" data-i18n="how_title">How the gate works</h2>
+        <p class="section-lead" data-i18n="how_lead">No accounts, no database, no plugins to babysit. One password, and everyone's locked out until they prove they belong.</p>
+
+        <ol class="how-steps">
+          <li class="how-step">
+            <span class="how-num">1</span>
+            <div>
+              <h3 data-i18n="how1_t">You set one password</h3>
+              <p data-i18n="how1_d">It lives in a plain config file on your server. Change it whenever you want.</p>
+            </div>
+          </li>
+          <li class="how-step">
+            <span class="how-num">2</span>
+            <div>
+              <h3 data-i18n="how2_t">Anyone who joins is frozen</h3>
+              <p data-i18n="how2_d">Black screen, can't move, can't chat, can't break blocks, can't run commands. Not even an account that used to have OP gets a free pass.</p>
+            </div>
+          </li>
+          <li class="how-step">
+            <span class="how-num">3</span>
+            <div>
+              <h3 data-i18n="how3_t">They type the password</h3>
+              <p data-i18n-html="how3_d"><code class="ic">/password &lt;your password&gt;</code> — correct and they're in. Wrong a few times and their IP gets benched for a while.</p>
+            </div>
+          </li>
+          <li class="how-step">
+            <span class="how-num">4</span>
+            <div>
+              <h3 data-i18n="how4_t">That's it. Nothing to install for them</h3>
+              <p data-i18n="how4_d">Players join with a normal client. Nothing is remembered between sessions, so a leaked account is useless without the current password.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section id="why" class="section section-cream">
+      <div class="wrap">
+        <span class="tag tag-yellow" data-i18n="why_tag">WE'RE 5 FRIENDS, NOT A COMPANY</span>
+        <h2 class="section-title" data-i18n="why_title">Why not just a whitelist?</h2>
+        <div class="compare">
+          <div class="compare-col">
+            <h3 data-i18n="cmp1_t">A whitelist</h3>
+            <p data-i18n="cmp1_d">You add every username by hand. A leaked or old account that's still on the list walks right in. Keeping it tidy for a group that changes is a chore.</p>
+          </div>
+          <div class="compare-col">
+            <h3 data-i18n="cmp2_t">A login / auth plugin</h3>
+            <p data-i18n="cmp2_d">Every player registers their own account and password, and you store all of that. Total overkill when you're five friends on a survival world.</p>
+          </div>
+          <div class="compare-col compare-win">
+            <h3 data-i18n="cmp3_t">SimpleServerPassword</h3>
+            <p data-i18n="cmp3_d">One password everyone shares. No accounts to manage. Change it once and the whole server is re-locked. A stolen old account is just… locked out.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- FEATURES -->
     <section id="features" class="section">
-      <h2 class="section-title" data-i18n="features_title">Everything locked until they log in</h2>
-      <p class="section-sub" data-i18n="features_sub">One password gates the whole server. Here's what it covers.</p>
-
-      <div class="feature-grid">
-        <article class="card">
-          <div class="card-icon">🔒</div>
-          <h3 data-i18n="f1_t">Total lockdown</h3>
-          <p data-i18n="f1_d">Unauthenticated players can't move, break or place blocks, touch the inventory, chat, or take and deal damage.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">⛔</div>
-          <h3 data-i18n="f2_t">Even OPs are gated</h3>
-          <p data-i18n="f2_d">Command blocking runs before permissions resolve, so a prior-OP account can't use /op, /gamemode or anything else until it authenticates.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">🛡️</div>
-          <h3 data-i18n="f3_t">Per-IP temporary ban</h3>
-          <p data-i18n="f3_d">Failed attempts are counted per IP. Too many and that IP is blocked for a configurable time — stopping brute force from a single connection.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">🌑</div>
-          <h3 data-i18n="f4_t">Blindness until login</h3>
-          <p data-i18n="f4_d">A continuous Blindness effect hides the world from anyone who hasn't entered the password yet. It clears the instant they authenticate.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">📡</div>
-          <h3 data-i18n="f5_t">Server-side only</h3>
-          <p data-i18n="f5_d">Players connect with a normal vanilla or Fabric client. There is nothing to install on their side.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">🌐</div>
-          <h3 data-i18n="f6_t">Multilingual</h3>
-          <p data-i18n="f6_d">Ships with English and Spanish. Add your own language with a single JSON file — no code, no rebuild.</p>
-        </article>
+      <div class="wrap">
+        <span class="tag tag-lime" data-i18n="feat_tag">WHAT IT DOES</span>
+        <h2 class="section-title" data-i18n="feat_title">Everything's locked until they log in</h2>
+        <div class="feature-grid">
+          <article class="nbcard">
+            <span class="ficon fic-lime">🧊</span>
+            <h3 data-i18n="f1_t">Frozen on join</h3>
+            <p data-i18n="f1_d">Can't move, break or place blocks, open the inventory, chat, or take and deal damage. Nothing.</p>
+          </article>
+          <article class="nbcard">
+            <span class="ficon fic-pink">⛔</span>
+            <h3 data-i18n="f2_t">Even OP is locked out</h3>
+            <p data-i18n-html="f2_d">Commands are blocked before permissions are even checked, so an old OP account can't <code class="ic">/op</code> itself in.</p>
+          </article>
+          <article class="nbcard">
+            <span class="ficon fic-sky">🪑</span>
+            <h3 data-i18n="f3_t">Wrong tries = IP benched</h3>
+            <p data-i18n="f3_d">Too many failed guesses and that IP is temporarily banned. Stops brute-forcing from one connection.</p>
+          </article>
+          <article class="nbcard">
+            <span class="ficon fic-yellow">🌑</span>
+            <h3 data-i18n="f4_t">Blind until you're in</h3>
+            <p data-i18n="f4_d">A blackout effect hides the world from anyone who hasn't typed the password yet. Clears the second they do.</p>
+          </article>
+          <article class="nbcard">
+            <span class="ficon fic-lime">🎮</span>
+            <h3 data-i18n="f5_t">Players install nothing</h3>
+            <p data-i18n="f5_d">It's server-side only. Everyone joins with a normal vanilla or Fabric client.</p>
+          </article>
+          <article class="nbcard">
+            <span class="ficon fic-pink">🌎</span>
+            <h3 data-i18n="f6_t">English &amp; Spanish</h3>
+            <p data-i18n="f6_d">Ships bilingual, and you can add your own language with one JSON file. No code, no rebuild.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- DOWNLOAD -->
     <section id="download" class="section">
-      <div class="download-card">
-        <div class="dl-glow" aria-hidden="true"></div>
-        <p class="dl-eyebrow" data-i18n="dl_eyebrow">Latest release</p>
-        <h2 class="dl-version" id="dl-version">v1.0.0</h2>
-        <p class="dl-meta" data-i18n="dl_meta">for Minecraft 1.20.1 · Fabric</p>
-
-        <a class="primary-btn primary-btn--lg" id="dl-button" href="https://github.com/mateosmudarg/SimpleServerPassword/releases/download/v1.0.0/simpleserverpassword-1.0.0.jar">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span data-i18n="dl_button">Download .jar</span>
-        </a>
-        <p class="dl-note">
-          <span data-i18n="dl_requires">Requires</span>
-          <a href="https://modrinth.com/mod/fabric-api/versions?g=1.20.1" target="_blank" rel="noopener">Fabric API 0.92.2+1.20.1</a>.
-          <a id="dl-all" href="https://github.com/mateosmudarg/SimpleServerPassword/releases" target="_blank" rel="noopener" data-i18n="dl_all">All releases →</a>
-        </p>
+      <div class="wrap">
+        <div class="dl-card">
+          <div class="dl-left">
+            <span class="tag tag-pink" data-i18n="dl_tag">LATEST RELEASE</span>
+            <div class="dl-version" id="dl-version">v1.0.0</div>
+            <p class="dl-meta" data-i18n="dl_meta">for Minecraft 1.20.1 · Fabric</p>
+          </div>
+          <div class="dl-right">
+            <a class="btn btn-lime btn-pill btn-lg" id="dl-button" href="https://github.com/mateosmudarg/SimpleServerPassword/releases/download/v1.0.0/simpleserverpassword-1.0.0.jar">
+              <span data-i18n="dl_button">↓ Download .jar</span>
+            </a>
+            <p class="dl-note">
+              <span data-i18n="dl_requires">Needs</span>
+              <a href="https://modrinth.com/mod/fabric-api/versions?g=1.20.1" target="_blank" rel="noopener">Fabric API 0.92.2+1.20.1</a> ·
+              <a id="dl-all" href="https://github.com/mateosmudarg/SimpleServerPassword/releases" target="_blank" rel="noopener" data-i18n="dl_all">All releases →</a>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- SETUP -->
-    <section id="setup" class="section">
-      <h2 class="section-title" data-i18n="setup_title">Up and running in five steps</h2>
-      <p class="section-sub" data-i18n="setup_sub">On an existing Fabric 1.20.1 server. Takes about five minutes.</p>
+    <section id="setup" class="section section-ink">
+      <div class="wrap">
+        <span class="tag tag-lime" data-i18n="setup_tag">FIVE MINUTES, TOPS</span>
+        <h2 class="section-title" data-i18n="setup_title">Get it running</h2>
+        <p class="section-lead" data-i18n="setup_lead">On a Fabric 1.20.1 server you already have. If you can edit a text file, you can do this.</p>
 
-      <ol class="steps">
-        <li class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h3 data-i18n="s1_t">Have Fabric + Fabric API ready</h3>
-            <p data-i18n="s1_d">Make sure your 1.20.1 server runs Fabric Loader and has Fabric API in its mods folder.</p>
-          </div>
-        </li>
-        <li class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h3 data-i18n="s2_t">Drop in the jar</h3>
-            <p data-i18n="s2_d">Copy the downloaded jar into the server's mods folder, next to Fabric API.</p>
-            <pre class="code"><code>mods/
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num">1</span>
+            <div class="step-body">
+              <h3 data-i18n="s1_t">Have Fabric + Fabric API ready</h3>
+              <p data-i18n="s1_d">Your 1.20.1 server should already run Fabric Loader with Fabric API in its mods folder.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-num">2</span>
+            <div class="step-body">
+              <h3 data-i18n="s2_t">Drop in the jar</h3>
+              <p data-i18n="s2_d">Copy the downloaded jar into the server's mods folder, next to Fabric API.</p>
+              <pre class="code"><code>mods/
 ├── fabric-api-0.92.2+1.20.1.jar
 └── simpleserverpassword-1.0.0.jar</code></pre>
-          </div>
-        </li>
-        <li class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h3 data-i18n="s3_t">Start once to generate config</h3>
-            <p data-i18n="s3_d">Boot the server. The mod creates its config and language files automatically, then stop the server.</p>
-            <pre class="code"><code>config/simpleserverpassword.json
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-num">3</span>
+            <div class="step-body">
+              <h3 data-i18n="s3_t">Start once to generate the config</h3>
+              <p data-i18n="s3_d">Boot the server — it creates the config and language files — then stop it.</p>
+              <pre class="code"><code>config/simpleserverpassword.json
 config/simpleserverpassword/lang/{en,es}.json</code></pre>
-          </div>
-        </li>
-        <li class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <h3 data-i18n="s4_t">Set your password</h3>
-            <p data-i18n="s4_d">Open the config and change the password field. It's plain text, so don't reuse an important password.</p>
-            <pre class="code"><code>{
-  <span class="c-key">"password"</span>: <span class="c-str">"my-secret-key"</span>,
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-num">4</span>
+            <div class="step-body">
+              <h3 data-i18n="s4_t">Set your password</h3>
+              <p data-i18n="s4_d">Open the config and change the password. It's plain text, so don't reuse a password that matters elsewhere.</p>
+              <pre class="code"><code>{
+  <span class="c-key">"password"</span>: <span class="c-str">"pick-something-good"</span>,
   <span class="c-key">"maxAttempts"</span>: <span class="c-num">3</span>,
   <span class="c-key">"banDurationMinutes"</span>: <span class="c-num">15</span>,
   <span class="c-key">"language"</span>: <span class="c-str">"en"</span>
 }</code></pre>
-          </div>
-        </li>
-        <li class="step">
-          <div class="step-num">5</div>
-          <div class="step-body">
-            <h3 data-i18n="s5_t">Restart — you're protected</h3>
-            <p data-i18n="s5_d">Start the server again. Players now have to run <code class="inline">/password &lt;key&gt;</code> before they can do anything.</p>
-          </div>
-        </li>
-      </ol>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-num">5</span>
+            <div class="step-body">
+              <h3 data-i18n="s5_t">Restart — you're locked down</h3>
+              <p data-i18n-html="s5_d">Start the server again. Now everyone has to run <code class="ic">/password &lt;key&gt;</code> before they can do anything.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </section>
 
     <!-- FAQ -->
     <section id="faq" class="section">
-      <h2 class="section-title" data-i18n="faq_title">FAQ</h2>
-
-      <div class="faq">
-        <details class="faq-item">
-          <summary data-i18n="q1">Do players need to install the mod too?</summary>
-          <div class="faq-a"><p data-i18n="a1">No. It's server-side only. Players join with a normal vanilla or Fabric client — there's nothing for them to install.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary data-i18n="q2">An OP can't run commands. Is that a bug?</summary>
-          <div class="faq-a"><p data-i18n="a2">No, it's intentional. Command blocking happens before permissions are resolved, so nobody — not even an OP — can run commands until they authenticate. Once they log in, all permissions come back.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary data-i18n="q3">I forgot the password or got banned. What now?</summary>
-          <div class="faq-a"><p data-i18n="a3">The password is plain text in the config file, so you can just read it. Bans live in memory, so restarting the server clears every ban and attempt counter instantly.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary data-i18n="q4">Do sessions persist between reconnects?</summary>
-          <div class="faq-a"><p data-i18n="a4">No, by design. Every new connection — including a reconnect — has to authenticate again. Nothing is stored between sessions.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary data-i18n="q5">Is the password hashed?</summary>
-          <div class="faq-a"><p data-i18n="a5">No. It's stored in plain text on purpose, for the simplicity of a private server. Don't reuse a password that matters elsewhere.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary data-i18n="q6">Why count failed attempts per IP instead of per account?</summary>
-          <div class="faq-a"><p data-i18n="a6">To stop an attacker cycling through several compromised accounts from the same connection. The per-IP counter shuts the whole connection down after too many tries.</p></div>
-        </details>
+      <div class="wrap">
+        <span class="tag tag-sky" data-i18n="faq_tag">QUICK ANSWERS</span>
+        <h2 class="section-title" data-i18n="faq_title">FAQ</h2>
+        <div class="faq">
+          <details class="faq-item">
+            <summary data-i18n="q1">Do players have to install the mod too?</summary>
+            <div class="faq-a"><p data-i18n="a1">Nope. It's server-side only. Everyone joins with a normal vanilla or Fabric client — there's nothing for them to install.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="q2">Is this actually a serious security tool?</summary>
+            <div class="faq-a"><p data-i18n="a2">It's a gate for small private servers, not enterprise security. It stops the stuff that actually happens to friend servers: opportunistic raid bots and known/leaked accounts logging in to hunt for OP.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="q3">An OP can't run commands. Bug?</summary>
+            <div class="faq-a"><p data-i18n="a3">No, that's the whole point. Commands are blocked before permissions are checked, so nobody — not even an OP — can run anything until they authenticate. Log in and everything comes back.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="q4">I forgot the password or banned myself.</summary>
+            <div class="faq-a"><p data-i18n="a4">The password is plain text in the config, so just read it. Bans live in memory — restart the server and every ban and attempt counter is wiped instantly.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="q5">Do logins stick between sessions?</summary>
+            <div class="faq-a"><p data-i18n="a5">No, on purpose. Every new connection — reconnects included — has to authenticate again. Nothing is stored between sessions, which is exactly why a leaked account can't sneak back in.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="q6">Why count failed tries per IP, not per account?</summary>
+            <div class="faq-a"><p data-i18n="a6">Because a raider cycles through several stolen accounts from the same connection. Benching the IP shuts the whole connection down after too many misses.</p></div>
+          </details>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-inner">
+    <div class="wrap footer-inner">
       <div class="footer-brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <path d="M16 2 4 7v8c0 7.5 5.1 12.9 12 15 6.9-2.1 12-7.5 12-15V7L16 2Z" fill="url(#g2)" fill-opacity="0.16" stroke="url(#g2)" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M16 13.2a2.4 2.4 0 0 0-1 4.6V21a1 1 0 0 0 2 0v-3.2a2.4 2.4 0 0 0-1-4.6Z" fill="url(#g2)"/>
-          <path d="M12.3 13.4v-2a3.7 3.7 0 0 1 7.4 0v2" stroke="url(#g2)" stroke-width="1.6" stroke-linecap="round"/>
-          <defs><linearGradient id="g2" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#6ee7a8"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
-        </svg>
+        <span class="brand-box brand-box-sm" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 3 5 7.4v7.2c0 6.9 4.7 11.9 11 13.8 6.3-1.9 11-6.9 11-13.8V7.4L16 3Z" fill="#111" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M16 13a2.5 2.5 0 0 0-1 4.8V21a1 1 0 0 0 2 0v-3.2A2.5 2.5 0 0 0 16 13Z" fill="#C8F432"/>
+            <path d="M12 13v-2a4 4 0 0 1 8 0v2" stroke="#C8F432" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
         <span>SimpleServerPassword</span>
       </div>
       <nav class="footer-links" aria-label="Footer">
@@ -241,7 +346,7 @@ config/simpleserverpassword/lang/{en,es}.json</code></pre>
         <a href="https://github.com/mateosmudarg/SimpleServerPassword/blob/main/LICENSE" target="_blank" rel="noopener" data-i18n="foot_license">MIT License</a>
       </nav>
     </div>
-    <p class="footer-note" data-i18n="foot_note">Built with Fabric. Not affiliated with Mojang or Microsoft.</p>
+    <p class="wrap footer-note" data-i18n="foot_note">Built with Fabric. Not affiliated with Mojang or Microsoft. Made by someone who didn't want their friends' world wrecked again.</p>
   </footer>
 
   <script src="script.js"></script>
