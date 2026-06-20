@@ -1,5 +1,7 @@
 # SimpleServerPassword — Website
 
+**Live: [simpleserverpassword.vercel.app](https://simpleserverpassword.vercel.app)**
+
 Landing page for [**SimpleServerPassword**](https://github.com/mateosmudarg/SimpleServerPassword), a server-side Fabric mod for Minecraft 1.20.1 that locks a server behind a single shared password.
 
 This repo is **just the website** — the mod itself lives in its own repository.
