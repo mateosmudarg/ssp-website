@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SimpleServerPassword — Keep raiders out of your friends' server</title>
-  <meta name="description" content="A server-side Fabric mod for Minecraft 1.20.1 that locks your server behind one shared password. Built to stop server-scanning raid bots and leaked accounts from wrecking small private servers." />
+  <meta name="description" content="A server-side Fabric mod for Minecraft 1.20.1 that locks your server behind one shared password. Built to stop the scanning bots that grief offline (cracked) friend servers the moment they're left empty." />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="SimpleServerPassword" />
-  <meta property="og:description" content="One password. Until someone types it, they can't touch your server — not even an old OP account. For small private servers, not corporations." />
+  <meta property="og:description" content="One password. Until someone types it, nobody can touch your server — so a bot can't grief your offline server while no one's online. For small private servers, not corporations." />
   <meta name="theme-color" content="#C8F432" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -61,7 +61,7 @@
         <div class="hero-copy">
           <span class="tag tag-lime" data-i18n="hero_tag">FABRIC · MINECRAFT 1.20.1 · SERVER-SIDE</span>
           <h1 data-i18n-html="hero_title">Keep raiders out of<br />your friends' <span class="mark">server.</span></h1>
-          <p class="hero-sub" data-i18n="hero_sub">One shared password. Until someone types it, they can't move, see, or touch a single thing on your server — not even an account that used to have OP. Made for small private servers, not corporations.</p>
+          <p class="hero-sub" data-i18n="hero_sub">One shared password. Until someone types it, they can't move, see, or touch a single thing — so a bot that slips into your offline server while no one's online just sits there, frozen. Made for small private servers, not corporations.</p>
           <div class="hero-cta">
             <a class="btn btn-lime btn-pill btn-lg" href="#download" data-i18n="hero_download">↓ Download the mod</a>
             <a class="btn btn-ghost btn-lg" href="#how" data-i18n="hero_how">How it works</a>
@@ -70,13 +70,13 @@
 
         <!-- Fake "join screen" panel -->
         <div class="screen" aria-hidden="true">
-          <div class="screen-bar"><span></span><span></span><span></span><b data-i18n="screen_bar">a stranger joins…</b></div>
+          <div class="screen-bar"><span></span><span></span><span></span><b data-i18n="screen_bar">server's empty — a bot connects…</b></div>
           <pre class="screen-body"><code><span class="s-dim">// screen goes black. can't move.</span>
 <span class="s-warn">SERVER LOCKED.</span>
 <span class="s-dim">type</span> <span class="s-lime">/password &lt;password&gt;</span> <span class="s-dim">to play</span>
 
-&gt; <span class="s-lime">/password</span> ••••••••••
-<span class="s-ok">OK — you're in. welcome!</span></code></pre>
+&gt; <span class="s-dim">(bot has no password — frozen)</span>
+<span class="s-ok">nothing griefed. crisis averted.</span></code></pre>
         </div>
       </div>
     </section>
@@ -87,22 +87,22 @@
         <span class="tag tag-pink" data-i18n="problem_tag">THE REAL PROBLEM</span>
         <h2 class="section-title" data-i18n="problem_title">Your server is way less hidden than you think</h2>
         <div class="prose">
-          <p data-i18n="problem_p1">Every Minecraft server answers a public ping with its status — version, players online, MOTD. Bots scan enormous ranges of IPs around the clock looking for anything that replies, especially servers with no whitelist or running in offline / "cracked" mode.</p>
-          <p data-i18n="problem_p2">When an organized raid group finds one, they pile in, hunt for anyone with OP (or just grief everything in reach), and leave the world in ruins. You didn't share your IP anywhere — they found it by scanning.</p>
-          <p data-i18n="problem_p3">And here's the nasty part: an old or leaked account that already played on your server is gold to them. It's "known", maybe still on your whitelist, and nobody's watching it anymore. A plain whitelist doesn't save you from that.</p>
+          <p data-i18n="problem_p1">Every Minecraft server answers a public ping with its status — version, MOTD, and who's online right now. Bots scan enormous ranges of IPs around the clock, and once they find a server they keep pinging it to watch the player list.</p>
+          <p data-i18n="problem_p2">Here's the move: they wait until the server shows empty. The moment nobody's online to react, they join and wreck everything in reach — lava, TNT, spawn flattened — in a couple of minutes, before anyone logs back in.</p>
+          <p data-i18n="problem_p3">And most friend servers run in offline ("cracked") mode, which skips Mojang's login check — so the server trusts any username. The bot doesn't need a stolen account; it just joins as whatever name it wants, even an admin's. A username whitelist can't stop that on its own.</p>
         </div>
         <div class="stat-row">
           <div class="stat">
             <b data-i18n="stat1_n">24/7</b>
-            <span data-i18n="stat1_l">bots scanning IP ranges for open servers</span>
+            <span data-i18n="stat1_l">bots scanning IPs and watching who's online</span>
           </div>
           <div class="stat">
-            <b data-i18n="stat2_n">1 ping</b>
-            <span data-i18n="stat2_l">is all it takes for your server to show up</span>
+            <b data-i18n="stat2_n">0 players</b>
+            <span data-i18n="stat2_l">is the signal they wait for — nobody's watching</span>
           </div>
           <div class="stat">
-            <b data-i18n="stat3_n">0 warning</b>
-            <span data-i18n="stat3_l">before a known account logs in to look for OP</span>
+            <b data-i18n="stat3_n">2 min</b>
+            <span data-i18n="stat3_l">to flatten an unguarded world before you're back</span>
           </div>
         </div>
       </div>
@@ -141,7 +141,7 @@
             <span class="how-num">4</span>
             <div>
               <h3 data-i18n="how4_t">That's it. Nothing to install for them</h3>
-              <p data-i18n="how4_d">Players join with a normal client. Nothing is remembered between sessions, so a leaked account is useless without the current password.</p>
+              <p data-i18n="how4_d">Players join with a normal client. Nothing is remembered between sessions — so even on an offline server, a bot can't get past the gate without the current password.</p>
             </div>
           </li>
         </ol>
@@ -156,7 +156,7 @@
         <div class="compare">
           <div class="compare-col">
             <h3 data-i18n="cmp1_t">A whitelist</h3>
-            <p data-i18n="cmp1_d">You add every username by hand. A leaked or old account that's still on the list walks right in. Keeping it tidy for a group that changes is a chore.</p>
+            <p data-i18n="cmp1_d">You add every username by hand — but on an offline server a bot just joins as a name on your list. No Mojang check means a username proves nothing.</p>
           </div>
           <div class="compare-col">
             <h3 data-i18n="cmp2_t">A login / auth plugin</h3>
@@ -164,7 +164,7 @@
           </div>
           <div class="compare-col compare-win">
             <h3 data-i18n="cmp3_t">SimpleServerPassword</h3>
-            <p data-i18n="cmp3_d">One password everyone shares. No accounts to manage. Change it once and the whole server is re-locked. A stolen old account is just… locked out.</p>
+            <p data-i18n="cmp3_d">One password everyone shares. No accounts to manage. It's the login check your offline server never had — so an empty server stops being an open door.</p>
           </div>
         </div>
       </div>
@@ -184,7 +184,7 @@
           <article class="nbcard">
             <span class="ficon fic-pink">⛔</span>
             <h3 data-i18n="f2_t">Even OP is locked out</h3>
-            <p data-i18n-html="f2_d">Commands are blocked before permissions are even checked, so an old OP account can't <code class="ic">/op</code> itself in.</p>
+            <p data-i18n-html="f2_d">Commands are blocked before permissions are even checked — so a bot that joins using your admin's name still can't <code class="ic">/op</code> or grief a thing.</p>
           </article>
           <article class="nbcard">
             <span class="ficon fic-sky">🪑</span>
@@ -303,7 +303,7 @@ config/simpleserverpassword/lang/{en,es}.json</code></pre>
           </details>
           <details class="faq-item">
             <summary data-i18n="q2">Is this actually a serious security tool?</summary>
-            <div class="faq-a"><p data-i18n="a2">It's a gate for small private servers, not enterprise security. It stops the stuff that actually happens to friend servers: opportunistic raid bots and known/leaked accounts logging in to hunt for OP.</p></div>
+            <div class="faq-a"><p data-i18n="a2">It's a gate for small private servers, not enterprise security. It stops the thing that actually happens to friend servers: scanning bots that wait for your offline server to empty out, then walk in and grief it.</p></div>
           </details>
           <details class="faq-item">
             <summary data-i18n="q3">An OP can't run commands. Bug?</summary>
@@ -315,11 +315,11 @@ config/simpleserverpassword/lang/{en,es}.json</code></pre>
           </details>
           <details class="faq-item">
             <summary data-i18n="q5">Do logins stick between sessions?</summary>
-            <div class="faq-a"><p data-i18n="a5">No, on purpose. Every new connection — reconnects included — has to authenticate again. Nothing is stored between sessions, which is exactly why a leaked account can't sneak back in.</p></div>
+            <div class="faq-a"><p data-i18n="a5">No, on purpose. Every new connection — reconnects included — has to authenticate again. Nothing is stored between sessions, which is exactly why a bot can't slip in just because it connected before.</p></div>
           </details>
           <details class="faq-item">
             <summary data-i18n="q6">Why count failed tries per IP, not per account?</summary>
-            <div class="faq-a"><p data-i18n="a6">Because a raider cycles through several stolen accounts from the same connection. Benching the IP shuts the whole connection down after too many misses.</p></div>
+            <div class="faq-a"><p data-i18n="a6">Because a bot retries from the same connection, swapping usernames freely on an offline server. Benching the IP shuts the whole connection down after too many misses.</p></div>
           </details>
         </div>
       </div>
